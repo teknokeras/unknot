@@ -1,4 +1,9 @@
+from pathlib import Path
+from typing import Annotated
+
 import typer
+
+from unknot.config import default_config, save_config
 
 app = typer.Typer(
     help="Split large source files into small, tested modules.",
@@ -7,9 +12,18 @@ app = typer.Typer(
 
 
 @app.command()
-def init() -> None:
+def init(
+    path: Annotated[Path, typer.Option(help="Where to write the config file.")] = Path(
+        "unknot.yaml"
+    ),
+    force: Annotated[bool, typer.Option("--force", help="Overwrite an existing file.")] = False,
+) -> None:
     """Create the Phase 0 config file."""
-    typer.echo("init: not implemented yet")
+    if path.exists() and not force:
+        typer.echo(f"{path} already exists. Use --force to overwrite.", err=True)
+        raise typer.Exit(code=1)
+    save_config(default_config(), path)
+    typer.echo(f"Wrote {path}. Edit it for your target repo, then run: unknot check")
 
 
 @app.command()
