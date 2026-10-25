@@ -1,0 +1,48 @@
+[project]
+name = "unknot"
+version = "0.1.0"
+description = "Experimental agent that splits large source files into small, tested modules, verified by your own test suite. TypeScript first."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["refactoring", "legacy-code", "langgraph", "ai-agents", "cli"]
+authors = [
+    { name = "Rahadian Bayu Permadi", email = "teknokeras@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.14.1",
+    "pyyaml>=6.0.3",
+    "typer>=0.27.3",
+]
+
+[project.scripts]
+unknot = "unknot.cli:app"
+
+[project.urls]
+Repository = "https://github.com/<your-username>/unknot"
+
+[build-system]
+requires = ["uv_build>=0.13.4,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "ruff>=0.17.2",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
