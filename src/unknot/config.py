@@ -14,8 +14,8 @@ class Baseline(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    passed_tests: int = Field(ge=0)
     duration_seconds: float = Field(ge=0)
+    passed_tests: int | None = Field(default=None, ge=0)
     flaky_tests: list[str] = Field(default_factory=list)
 
 
